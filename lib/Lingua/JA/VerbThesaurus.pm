@@ -50,12 +50,11 @@ has 'source' => (
 
 sub _build_backend {
   my $self = shift;
-  my $backend = do {
-    given ($self->thesaurus_version) {
-      when (/^0\.9/) { 'V0_9' }
-      default { croak 'Unknown version of thesaurus'; }
-    }
-  };
+  my $backend;
+  given ($self->thesaurus_version) {
+    when (/^0\.9/) { $backend = 'V0_9' }
+    default { croak 'Unknown version of thesaurus'; }
+  }
   my $class = "Lingua::JA::VerbThesaurus::Backend::${backend}";
   $class->require or croak $@;
   $class->new(source => $self->source);
