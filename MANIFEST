@@ -1,4 +1,5 @@
 Changes
+inc/ExtUtils/MakeMaker.pm
 inc/Module/Install.pm
 inc/Module/Install/AuthorTests.pm
 inc/Module/Install/Base.pm
@@ -8,6 +9,7 @@ inc/Module/Install/Include.pm
 inc/Module/Install/Makefile.pm
 inc/Module/Install/Metadata.pm
 inc/Module/Install/Repository.pm
+inc/Module/Install/Share.pm
 inc/Module/Install/Win32.pm
 inc/Module/Install/WriteAll.pm
 inc/Test/Exception.pm
@@ -22,6 +24,7 @@ MANIFEST			This list of files
 META.yml
 MYMETA.yml
 README
+share/vthesaurus.csv
 t/00_compile.t
 t/01_initialize.t
 xt/pod.t
