@@ -1,6 +1,9 @@
 use strict;
 use warnings;
 use List::MoreUtils qw/none/;
+use Test::File::ShareDir -share => +{
+    -dist => +{ 'Lingua-JA-VerbThesaurus' => 'share' },
+};
 use Test::More;
 use Test::Exception;
 

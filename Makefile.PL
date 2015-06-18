@@ -18,8 +18,9 @@ author_tests 'xt';
 
 install_share;
 
-test_requires 'Test::More'      => '0.98';
 test_requires 'Test::Exception' => '0.31';
+test_requires 'Test::File::ShareDir' => '0.3.3';
+test_requires 'Test::More' => '0.98';
 
 auto_set_repository;
 auto_include;
