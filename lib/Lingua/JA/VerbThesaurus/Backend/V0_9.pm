@@ -7,31 +7,31 @@ use MooseX::Types::Moose qw/ArrayRef Bool Str/;
 has 'deep' => (
   is => 'ro',
   isa => Str,
-  required => 1
+  required => 1,
 );
 
 has 'example' => (
   is => 'ro',
   isa => Str,
-  predicate => 'has_example'
+  predicate => 'has_example',
 );
 
-# indicate if the case is implied by verb
+# Indicates if the case is implied by verb.
 has 'implied' => (
   is => 'ro',
-  isa => Bool
+  isa => Bool,
 );
 
 has 'surface' => (
   is => 'ro',
   isa => Str,
-  predicate => 'has_surface'
+  predicate => 'has_surface',
 );
 
 has 'variable' => (
   is => 'ro',
   isa => ArrayRef[Str],
-  default => sub { [] }
+  default => sub { [] },
 );
 
 __PACKAGE__->meta->make_immutable;
@@ -39,50 +39,47 @@ __PACKAGE__->meta->make_immutable;
 package Lingua::JA::VerbThesaurus::Backend::V0_9::Entry;
 
 use namespace::autoclean;
+use Lingua::JA::VerbThesaurus::Types qw/VerbCategoryName/;
 use Moose;
 use MooseX::Types::Moose qw/ArrayRef Int Str/;
-
-use Lingua::JA::VerbThesaurus::Types qw/VerbCategoryName/;
 
 has 'cases' => (
   is => 'ro',
   isa => ArrayRef['Lingua::JA::VerbThesaurus::Backend::V0_9::Case'],
   default => sub { [] },
+  handles => +{ has_cases => 'count' },
   traits => [qw/Array/],
-  handles => +{
-    has_cases => 'count'
-  }
 );
 
 has 'frame' => (
   is => 'ro',
   isa => Str,
-  predicate => 'has_frame'
+  predicate => 'has_frame',
 );
 
 has 'head_word' => (
   is => 'ro',
   isa => Str,
-  required => 1
+  required => 1,
 );
 
 has 'id' => (
   is => 'ro',
   isa => Int,
-  required => 1
+  required => 1,
 );
 
 has 'lexeed_id' => (
   is => 'ro',
   isa => Str,
-  predicate => 'has_lexeed_id'
+  predicate => 'has_lexeed_id',
 );
 
 has 'verb_category' => (
   is => 'ro',
   isa => VerbCategoryName,
+  coerce => 1,
   required => 1,
-  coerce => 1
 );
 
 __PACKAGE__->meta->make_immutable;
@@ -90,14 +87,14 @@ __PACKAGE__->meta->make_immutable;
 package Lingua::JA::VerbThesaurus::Backend::V0_9;
 
 use namespace::autoclean;
-use Moose;
-
 use Fcntl qw/:seek/;
+use Moose;
 use Text::CSV_XS;
 
 with qw/Lingua::JA::VerbThesaurus::Backend/;
 
 sub case_class { __PACKAGE__ . '::Case' }
+
 sub entry_class { __PACKAGE__ . '::Entry' }
 
 my @columns = qw/id lexeed_id head_word
@@ -114,7 +111,8 @@ my $csv = Text::CSV_XS->new(+{ binary => 1, empty_is_undef => 1 });
 $csv->column_names(@columns);
 
 sub _build_entries {
-  my $self = shift;
+  my ($self) = @_;
+
   my $src = $self->source;
   seek $src, 0, SEEK_SET;
   my $rows = $csv->getline_hr_all($src, 1);

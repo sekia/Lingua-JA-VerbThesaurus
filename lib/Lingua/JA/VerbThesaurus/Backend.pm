@@ -9,20 +9,21 @@ use MooseX::Types::Moose qw/ArrayRef/;
 has 'entries' => (
   is => 'ro',
   isa => ArrayRef,
+  builder => '_build_entries',
   lazy => 1,
-  builder => '_build_entries'
 );
 
 has 'source' => (
   is => 'ro',
   isa => IO,
-  required => 1
+  required => 1,
 );
 
 requires qw/_build_entries case_class entry_class/;
 
 sub search {
   my ($self, %conds) = @_;
+
   my @conds;
   while (my ($prop, $cond) = each %conds) {
     push @conds, [

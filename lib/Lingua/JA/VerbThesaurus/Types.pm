@@ -16,7 +16,7 @@ coerce VerbCategoryName,
   from Str,
   via {
     require Lingua::JA::VerbThesaurus::VerbCategory;
-    Lingua::JA::VerbThesaurus::VerbCategory::Name->new($_)
+    Lingua::JA::VerbThesaurus::VerbCategory::Name->new($_);
   };
 
 1;

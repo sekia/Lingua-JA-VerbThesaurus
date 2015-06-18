@@ -3,49 +3,46 @@ package Lingua::JA::VerbThesaurus;
 use 5.012;
 use utf8;
 use namespace::autoclean;
-
+use Carp;
+# Types should not be imported into this namespace because importable symbols
+# conflict with already existing classes.
+use Lingua::JA::VerbThesaurus::Types;
+use Lingua::JA::VerbThesaurus::VerbCategory;
 use Moose;
 use MooseX::Types::IO qw/IO/;
 use MooseX::Types::Moose qw/Num Str/;
-
-use Carp;
 use Text::CSV_XS;
 use UNIVERSAL::require;
-
-# Types should not be imported into this namespace
-# because importable symbols conflict with already existing classes
-use Lingua::JA::VerbThesaurus::Types;
-use Lingua::JA::VerbThesaurus::VerbCategory;
 
 our $VERSION = '0.01';
 
 has 'backend' => (
   is => 'ro',
   isa => Lingua::JA::VerbThesaurus::Types::Backend,
-  lazy => 1,
   builder => '_build_backend',
-  handles => [qw/search entries case_class entry_class/]
+  handles => [qw/search entries case_class entry_class/],
+  lazy => 1,
 );
 
 has 'source' => (
   is => 'ro',
   isa => IO,
   coerce => 1,
+  builder => '_build_source',
   lazy => 1,
-  builder => '_build_source'
 );
 
 has 'thesaurus_version' => (
   is => 'ro',
   isa => Str,
-  default => '0.902'
+  default => '0.902',
 );
 
 has 'verb_category' => (
   is => 'ro',
   isa => Lingua::JA::VerbThesaurus::Types::VerbCategory,
+  builder => '_build_verb_category',
   lazy => 1,
-  builder => '_build_verb_category'
 );
 
 sub _build_backend {
