@@ -40,18 +40,21 @@ use MooseX::Types::Moose qw/ArrayRef HashRef Str/;
 
 use Lingua::JA::VerbThesaurus::Types qw/VerbCategoryName VerbCategory/;
 
+has '_entries' => (
+  is => 'ro',
+  isa => ArrayRef,
+  lazy => 1,
+  default => sub { [] },
+  traits => [qw/Array/],
+  handles => +{ _add_entry => 'push' },
+  init_arg => 'entries'
+);
+
 has 'name' => (
   is => 'ro',
   isa => VerbCategoryName,
   required => 1,
   coerce => 1
-);
-
-has 'super_category' => (
-  is => 'ro',
-  isa => VerbCategory,
-  required => 1,
-  weak_ref => 1
 );
 
 has 'sub_categories' => (
@@ -65,27 +68,12 @@ has 'sub_categories' => (
   }
 );
 
-has '_entries' => (
+has 'super_category' => (
   is => 'ro',
-  isa => ArrayRef,
-  lazy => 1,
-  default => sub { [] },
-  traits => [qw/Array/],
-  handles => +{ _add_entry => 'push' },
-  init_arg => 'entries'
+  isa => VerbCategory,
+  required => 1,
+  weak_ref => 1
 );
-
-sub is_root { 0 }
-
-sub is_top_level {
-  my $self = shift;
-  not $self->is_root and $self->super_category->is_root;
-}
-
-sub find {
-  my ($self, $category) = @_;
-  $self->_find(0, split /-/, $category) // croak "No such category: $category";
-}
 
 sub _find {
   my ($self, $find_or_create, @path) = @_;
@@ -121,6 +109,18 @@ sub entries {
       ? +(map { @{ $_->entries(%opts) } } values %{ $self->sub_categories })
       : +()
   ]
+}
+
+sub find {
+  my ($self, $category) = @_;
+  $self->_find(0, split /-/, $category) // croak "No such category: $category";
+}
+
+sub is_root { 0 }
+
+sub is_top_level {
+  my $self = shift;
+  not $self->is_root and $self->super_category->is_root;
 }
 
 __PACKAGE__->meta->make_immutable;

@@ -6,12 +6,6 @@ use Moose::Role;
 use MooseX::Types::IO qw/IO/;
 use MooseX::Types::Moose qw/ArrayRef/;
 
-has 'source' => (
-  is => 'ro',
-  isa => IO,
-  required => 1
-);
-
 has 'entries' => (
   is => 'ro',
   isa => ArrayRef,
@@ -19,7 +13,13 @@ has 'entries' => (
   builder => '_build_entries'
 );
 
-requires qw/case_class entry_class _build_entries/;
+has 'source' => (
+  is => 'ro',
+  isa => IO,
+  required => 1
+);
+
+requires qw/_build_entries case_class entry_class/;
 
 sub search {
   my ($self, %conds) = @_;

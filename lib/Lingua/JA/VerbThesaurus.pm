@@ -19,12 +19,6 @@ use Lingua::JA::VerbThesaurus::VerbCategory;
 
 our $VERSION = '0.01';
 
-has 'thesaurus_version' => (
-  is => 'ro',
-  isa => Str,
-  default => '0.902'
-);
-
 has 'backend' => (
   is => 'ro',
   isa => Lingua::JA::VerbThesaurus::Types::Backend,
@@ -33,19 +27,25 @@ has 'backend' => (
   handles => [qw/search entries case_class entry_class/]
 );
 
-has 'verb_category' => (
-  is => 'ro',
-  isa => Lingua::JA::VerbThesaurus::Types::VerbCategory,
-  lazy => 1,
-  builder => '_build_verb_category'
-);
-
 has 'source' => (
   is => 'ro',
   isa => IO,
   coerce => 1,
   lazy => 1,
   builder => '_build_source'
+);
+
+has 'thesaurus_version' => (
+  is => 'ro',
+  isa => Str,
+  default => '0.902'
+);
+
+has 'verb_category' => (
+  is => 'ro',
+  isa => Lingua::JA::VerbThesaurus::Types::VerbCategory,
+  lazy => 1,
+  builder => '_build_verb_category'
 );
 
 sub _build_backend {
@@ -60,16 +60,16 @@ sub _build_backend {
   $class->new(source => $self->source);
 }
 
-sub _build_verb_category {
-  my $category = Lingua::JA::VerbThesaurus::VerbCategory->new;
-  for my $entry (@{ shift->entries }) { $category->add_entry($entry); }
-  $category;
-}
-
 sub _build_source {
   Path::Class->use or croak $@;
   File::ShareDir->use('dist_file') or croak $@;
   \do { scalar file(dist_file('Lingua-JA-VerbThesaurus', 'vthesaurus.csv'))->slurp };
+}
+
+sub _build_verb_category {
+  my $category = Lingua::JA::VerbThesaurus::VerbCategory->new;
+  for my $entry (@{ shift->entries }) { $category->add_entry($entry); }
+  $category;
 }
 
 __PACKAGE__->meta->make_immutable;

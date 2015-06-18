@@ -10,28 +10,28 @@ has 'deep' => (
   required => 1
 );
 
-has 'surface' => (
-  is => 'ro',
-  isa => Str,
-  predicate => 'has_surface'
-);
-
 has 'example' => (
   is => 'ro',
   isa => Str,
   predicate => 'has_example'
 );
 
-has 'variable' => (
-  is => 'ro',
-  isa => ArrayRef[Str],
-  default => sub { [] }
-);
-
 # indicate if the case is implied by verb
 has 'implied' => (
   is => 'ro',
   isa => Bool
+);
+
+has 'surface' => (
+  is => 'ro',
+  isa => Str,
+  predicate => 'has_surface'
+);
+
+has 'variable' => (
+  is => 'ro',
+  isa => ArrayRef[Str],
+  default => sub { [] }
 );
 
 __PACKAGE__->meta->make_immutable;
@@ -43,6 +43,28 @@ use Moose;
 use MooseX::Types::Moose qw/ArrayRef Int Str/;
 
 use Lingua::JA::VerbThesaurus::Types qw/VerbCategoryName/;
+
+has 'cases' => (
+  is => 'ro',
+  isa => ArrayRef['Lingua::JA::VerbThesaurus::Backend::V0_9::Case'],
+  default => sub { [] },
+  traits => [qw/Array/],
+  handles => +{
+    has_cases => 'count'
+  }
+);
+
+has 'frame' => (
+  is => 'ro',
+  isa => Str,
+  predicate => 'has_frame'
+);
+
+has 'head_word' => (
+  is => 'ro',
+  isa => Str,
+  required => 1
+);
 
 has 'id' => (
   is => 'ro',
@@ -56,33 +78,11 @@ has 'lexeed_id' => (
   predicate => 'has_lexeed_id'
 );
 
-has 'head_word' => (
-  is => 'ro',
-  isa => Str,
-  required => 1
-);
-
-has 'cases' => (
-  is => 'ro',
-  isa => ArrayRef['Lingua::JA::VerbThesaurus::Backend::V0_9::Case'],
-  default => sub { [] },
-  traits => [qw/Array/],
-  handles => +{
-    has_cases => 'count'
-  }
-);
-
 has 'verb_category' => (
   is => 'ro',
   isa => VerbCategoryName,
   required => 1,
   coerce => 1
-);
-
-has 'frame' => (
-  is => 'ro',
-  isa => Str,
-  predicate => 'has_frame'
 );
 
 __PACKAGE__->meta->make_immutable;
