@@ -7,10 +7,10 @@ use Carp;
 # conflict with already existing classes.
 use Lingua::JA::VerbThesaurus::Types;
 use Lingua::JA::VerbThesaurus::VerbCategory;
+use Module::Load;
 use Moose;
 use MooseX::Types::IO qw/IO/;
 use MooseX::Types::Moose qw/Num Str/;
-use UNIVERSAL::require;
 
 our $VERSION = '0.01';
 
@@ -51,13 +51,13 @@ sub _build_backend {
       : croak 'Unknown version of thesaurus';
 
   my $class = "Lingua::JA::VerbThesaurus::Backend::${backend}";
-  $class->require or croak $@;
+  load $class;
   $class->new(source => $self->source);
 }
 
 sub _build_source {
-  File::ShareDir->use('dist_file') or croak $@;
-  dist_file('Lingua-JA-VerbThesaurus', 'vthesaurus.csv');
+  require File::ShareDir;
+  File::ShareDir::dist_file('Lingua-JA-VerbThesaurus', 'vthesaurus.csv');
 }
 
 sub _build_verb_category {
