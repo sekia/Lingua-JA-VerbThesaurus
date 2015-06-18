@@ -56,9 +56,8 @@ sub _build_backend {
 }
 
 sub _build_source {
-  Path::Class->use or croak $@;
   File::ShareDir->use('dist_file') or croak $@;
-  \do { scalar file(dist_file('Lingua-JA-VerbThesaurus', 'vthesaurus.csv'))->slurp };
+  dist_file('Lingua-JA-VerbThesaurus', 'vthesaurus.csv');
 }
 
 sub _build_verb_category {

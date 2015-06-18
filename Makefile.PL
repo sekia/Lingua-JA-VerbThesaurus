@@ -6,7 +6,6 @@ license 'mit';
 
 requires 'File:;ShareDir'       => '1.03';
 requires 'List::MoreUtils'      => '0.32';
-requires 'Path::Class'          => '0.24';
 requires 'Moose'                => '2.00';
 requires 'MooseX::Types'        => '0.27';
 requires 'MooseX::Types::IO'    => '0.03';
