@@ -11,7 +11,6 @@ use Lingua::JA::VerbThesaurus::VerbCategory;
 use Moose;
 use MooseX::Types::IO qw/IO/;
 use MooseX::Types::Moose qw/Num Str/;
-use Text::CSV_XS;
 use UNIVERSAL::require;
 
 our $VERSION = '0.01';
