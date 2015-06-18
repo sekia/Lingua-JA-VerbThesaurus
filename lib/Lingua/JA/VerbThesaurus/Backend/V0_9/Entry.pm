@@ -1,6 +1,5 @@
 package Lingua::JA::VerbThesaurus::Backend::V0_9::Entry;
 
-use namespace::autoclean;
 use Lingua::JA::VerbThesaurus::Types qw/VerbCategoryName/;
 use Moose;
 use MooseX::Types::Moose qw/ArrayRef Int Str/;
@@ -43,5 +42,7 @@ has 'verb_category' => (
   coerce => 1,
   required => 1,
 );
+
+no Moose;
 
 __PACKAGE__->meta->make_immutable;

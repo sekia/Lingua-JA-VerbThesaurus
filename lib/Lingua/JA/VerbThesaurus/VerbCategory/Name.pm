@@ -1,7 +1,5 @@
 package Lingua::JA::VerbThesaurus::VerbCategory::Name;
 
-# namespace::autoclean cannot be used because it cleans up functions imported
-# by overload.
 use overload '""' => \&stringify;
 use Moose;
 use MooseX::Types::Moose qw/ArrayRef Str/;

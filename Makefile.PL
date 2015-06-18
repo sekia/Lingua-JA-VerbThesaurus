@@ -4,7 +4,6 @@ name 'Lingua-JA-VerbThesaurus';
 all_from 'lib/Lingua/JA/VerbThesaurus.pm';
 license 'mit';
 
-requires 'namespace::autoclean' => '0.12';
 requires 'File:;ShareDir'       => '1.03';
 requires 'List::MoreUtils'      => '0.32';
 requires 'Path::Class'          => '0.24';

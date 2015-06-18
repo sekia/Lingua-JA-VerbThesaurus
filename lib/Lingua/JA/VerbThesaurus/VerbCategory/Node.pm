@@ -1,6 +1,5 @@
 package Lingua::JA::VerbThesaurus::VerbCategory::Node;
 
-use namespace::autoclean;
 use Carp;
 use Lingua::JA::VerbThesaurus::Types qw/VerbCategoryName VerbCategory/;
 use Moose;
@@ -92,5 +91,7 @@ sub is_top_level {
 
   not $self->is_root and $self->super_category->is_root;
 }
+
+no Moose;
 
 __PACKAGE__->meta->make_immutable;

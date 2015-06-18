@@ -1,6 +1,5 @@
 package Lingua::JA::VerbThesaurus::Backend::V0_9::Case;
 
-use namespace::autoclean;
 use Moose;
 use MooseX::Types::Moose qw/ArrayRef Bool Str/;
 
@@ -33,5 +32,7 @@ has 'variable' => (
   isa => ArrayRef[Str],
   default => sub { [] },
 );
+
+no Moose;
 
 __PACKAGE__->meta->make_immutable;

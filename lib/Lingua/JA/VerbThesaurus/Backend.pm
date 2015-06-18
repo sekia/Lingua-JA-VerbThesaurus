@@ -1,6 +1,5 @@
 package Lingua::JA::VerbThesaurus::Backend;
 
-use namespace::autoclean;
 use List::MoreUtils qw/all any/;
 use Moose::Role;
 use MooseX::Types::IO qw/IO/;
@@ -51,5 +50,7 @@ sub search {
     } @conds;
   } @{ $self->entries } ];
 }
+
+no Moose::Role;
 
 1;

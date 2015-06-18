@@ -2,7 +2,6 @@ package Lingua::JA::VerbThesaurus;
 
 use 5.012;
 use utf8;
-use namespace::autoclean;
 use Carp;
 # Types should not be imported into this namespace because importable symbols
 # conflict with already existing classes.
@@ -67,6 +66,8 @@ sub _build_verb_category {
   for my $entry (@{ shift->entries }) { $category->add_entry($entry); }
   $category;
 }
+
+no Moose;
 
 __PACKAGE__->meta->make_immutable;
 

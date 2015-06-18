@@ -1,6 +1,5 @@
 package Lingua::JA::VerbThesaurus::VerbCategory;
 
-use namespace::autoclean;
 use Lingua::JA::VerbThesaurus::VerbCategory::Name;
 use Lingua::JA::VerbThesaurus::VerbCategory::Node;
 use Moose;
@@ -18,5 +17,7 @@ has '+super_category' => (
 );
 
 sub is_root { 1 }
+
+no Moose;
 
 __PACKAGE__->meta->make_immutable;

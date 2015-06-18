@@ -1,6 +1,5 @@
 package Lingua::JA::VerbThesaurus::Backend::V0_9;
 
-use namespace::autoclean;
 use Fcntl qw/:seek/;
 use Lingua::JA::VerbThesaurus::Backend::V0_9::Case;
 use Lingua::JA::VerbThesaurus::Backend::V0_9::Entry;
@@ -65,5 +64,7 @@ sub _build_entries {
     );
   } @$rows ];
 }
+
+no Moose;
 
 __PACKAGE__->meta->make_immutable;
