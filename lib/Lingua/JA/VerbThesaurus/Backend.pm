@@ -1,7 +1,7 @@
 package Lingua::JA::VerbThesaurus::Backend;
 
 use namespace::autoclean;
-use List::MoreUtils qw/all/;
+use List::MoreUtils qw/all any/;
 use Moose::Role;
 use MooseX::Types::IO qw/IO/;
 use MooseX::Types::Moose qw/ArrayRef/;
@@ -25,7 +25,22 @@ sub search {
   my ($self, %conds) = @_;
   my @conds;
   while (my ($prop, $cond) = each %conds) {
-    push @conds, [ $prop, sub { $_[0] ~~ $cond } ];
+    push @conds, [
+        $prop,
+        sub {
+            my ($value) = @_;
+
+            if (ref $cond eq 'ARRAY') {
+                any { $value eq $_ } @$cond;
+            } elsif (ref $cond eq 'CODE') {
+                $cond->($value);
+            } elsif (ref $cond eq 'Regexp') {
+                $value =~ $cond;
+            } else {
+                $value eq $cond;
+            }
+        }
+    ];
   }
   [ grep {
     my $entry = $_;
